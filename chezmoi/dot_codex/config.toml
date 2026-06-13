@@ -1,0 +1,14 @@
+personality = "pragmatic"
+model = "gpt-5.4"
+model_reasoning_effort = "medium"
+
+[mcp_servers.serena]
+command = "uvx"
+args = ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "codex"]
+enabled = true
+
+[features]
+multi_agent = true
+
+[plugins."github@openai-curated"]
+enabled = true

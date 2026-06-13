@@ -1,0 +1,12 @@
+# ~/.profile: executed by the command interpreter for login shells.
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:$XDG_DATA_DIRS"
+export PATH="/home/linuxbrew/.linuxbrew/opt/postgresql@16/bin:$PATH"
+export BROWSER=/usr/bin/wslview
+export TERMINFO=/lib/terminfo
