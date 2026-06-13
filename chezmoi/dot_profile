@@ -1,12 +1,18 @@
 # ~/.profile: executed by the command interpreter for login shells.
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if command -v brew >/dev/null 2>&1; then
+    eval "$(brew shellenv)"
+fi
 
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:$XDG_DATA_DIRS"
-export PATH="/home/linuxbrew/.linuxbrew/opt/postgresql@16/bin:$PATH"
-export BROWSER=/usr/bin/wslview
-export TERMINFO=/lib/terminfo
+if command -v brew >/dev/null 2>&1; then
+    pg_prefix="$(brew --prefix postgresql@16 2>/dev/null || true)"
+    if [ -n "$pg_prefix" ]; then
+        PATH="$pg_prefix/bin:$PATH"
+    fi
+fi
+
+export BROWSER="${BROWSER:-wslview}"

@@ -100,4 +100,3 @@ eval "$(pyenv init -)"
 export PULSE_RUNTIME_PATH="$HOME/.pulse-runtime"
 unset PULSE_SERVER
 export PATH="$HOME/.local/bin:$PATH"
-export PULSE_SERVER=unix:/mnt/wslg/PulseServer

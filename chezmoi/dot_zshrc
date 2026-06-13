@@ -1,4 +1,9 @@
 . "$HOME/.cargo/env"
 eval "$(starship init zsh)"
-export PATH="/home/linuxbrew/.linuxbrew/opt/postgresql@16/bin:$PATH"
+if command -v brew >/dev/null 2>&1; then
+    pg_prefix="$(brew --prefix postgresql@16 2>/dev/null || true)"
+    if [ -n "$pg_prefix" ]; then
+        export PATH="$pg_prefix/bin:$PATH"
+    fi
+fi
 . "$HOME/.local/bin/env"
