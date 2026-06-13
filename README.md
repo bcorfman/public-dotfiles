@@ -33,3 +33,27 @@ Basic usage:
 chezmoi init https://github.com/bcorfman/public-dotfiles.git
 chezmoi apply
 ```
+
+## WSL Git Credential Manager
+
+This source state is designed to restore Git-on-WSL using Windows Git
+Credential Manager, not SSH-agent-based Git auth.
+
+For that to work after a WSL rebuild:
+
+- Windows Git must be installed.
+- The Git Credential Manager helper must exist at the path supplied through
+  local chezmoi machine data.
+- The Windows Credential Manager entries must still exist in the Windows user
+  profile.
+
+Post-restore verification:
+
+```bash
+git config --global --get credential.helper
+git config --global --get credential.credentialStore
+git ls-remote https://github.com/bcorfman/public-dotfiles.git
+```
+
+If `git ls-remote` succeeds without prompting for new credentials, the restored
+WSL environment is correctly using Windows Git Credential Manager.

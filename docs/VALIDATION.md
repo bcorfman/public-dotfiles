@@ -18,8 +18,17 @@ What this test does:
 - generates a config from `.chezmoi.toml.tmpl`
 - applies the source state to a temporary home directory
 - verifies key rendered files exist
+- verifies the source state can render a Git Credential Manager-based Git config
 
 This checks the chezmoi source state itself, independent of your live home directory.
 
 The source repo is expected to be directly apply-able, not wrapped in an extra
 `chezmoi/` staging directory.
+
+This validation does not prove that Git auth itself will work on a rebuilt WSL
+system. After restore, verify that Windows Git is installed and run:
+
+```bash
+git config --global --get credential.helper
+git ls-remote https://github.com/bcorfman/public-dotfiles.git
+```

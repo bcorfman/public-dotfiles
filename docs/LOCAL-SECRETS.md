@@ -36,6 +36,36 @@ recipient = "age1..."
 - socket paths
 - encryption recipients if you do not want them published
 
+## WSL Git Credential Manager Restore
+
+For this setup, the GitHub PAT itself is not stored in WSL. The restored WSL
+Git config points at Windows Git Credential Manager, and the actual credential
+material stays in Windows Credential Manager.
+
+That means a WSL rebuild is normally seamless if:
+
+- Windows Git is installed
+- your local chezmoi machine data restores the helper path
+- your Windows profile still contains the saved credential entries
+
+Recommended local machine values:
+
+```toml
+[data.machine]
+gitCredentialHelper = "/mnt/c/Program Files/Git/mingw64/bin/git-credential-manager.exe"
+gitCredentialStore = "wincredman"
+```
+
+Recommended post-restore check:
+
+```bash
+git config --global --get credential.helper
+git ls-remote https://github.com/bcorfman/public-dotfiles.git
+```
+
+If the helper path is wrong or Windows Git is missing, Git auth from WSL will
+fail even though the PAT still exists in Windows Credential Manager.
+
 ## Chezmoi Features To Use
 
 - Use `.chezmoi.toml.tmpl` to prompt for initial identity values during
