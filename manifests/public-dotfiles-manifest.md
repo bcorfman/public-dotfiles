@@ -4,18 +4,20 @@ Date: 2026-06-13
 
 ## Included
 
+- `.chezmoi.toml.tmpl`
+  Prompts for local identity values during `chezmoi init` and defines local-only machine data keys.
 - `chezmoi/dot_bashrc`
-  From `~/.bashrc`, kept with current shell initialization.
+  From `~/.bashrc`, converted to a template so optional local machine data can be injected privately.
 - `chezmoi/dot_bash_profile`
   From `~/.bash_profile`.
-- `chezmoi/dot_profile`
-  From `~/.profile`, but with KHOJ secrets removed.
-- `chezmoi/dot_zshrc`
-  From `~/.zshrc`.
-- `chezmoi/dot_gitconfig`
-  Curated from `~/.gitconfig`, with machine-local credential-helper path removed.
-- `chezmoi/dot_cookiecutterrc`
-  Curated from `~/.cookiecutterrc`.
+- `chezmoi/dot_profile.tmpl`
+  From `~/.profile`, with Khoj secrets removed and machine-specific paths moved to local chezmoi data.
+- `chezmoi/dot_zshrc.tmpl`
+  From `~/.zshrc`, with machine-specific paths moved to local chezmoi data.
+- `chezmoi/dot_gitconfig.tmpl`
+  Curated from `~/.gitconfig`, with identity and credential-helper values sourced from local chezmoi data.
+- `chezmoi/dot_cookiecutterrc.tmpl`
+  Curated from `~/.cookiecutterrc`, with identity values sourced from local chezmoi data.
 - `chezmoi/dot_config/mimeapps.list`
   From `~/.config/mimeapps.list`.
 - `chezmoi/dot_config/RavenCheckers/raven.ini`
@@ -24,6 +26,8 @@ Date: 2026-06-13
   From `~/.rye/config.toml`.
 - `chezmoi/dot_codex/config.toml`
   From `~/.codex/config.toml`, excluding auth, runtime state, and machine-local project trust entries.
+- `docs/LOCAL-SECRETS.md`
+  Local-only machine-data and secrets workflow for chezmoi.
 - `manifests/Brewfile`
   Curated Homebrew manifest for reinstall.
 - `manifests/apt-packages.txt`
@@ -48,6 +52,6 @@ Date: 2026-06-13
 
 ## Follow-Up
 
-- decide whether to template personal identity values in `dot_gitconfig` and `dot_cookiecutterrc`
+- fill in local chezmoi data instead of editing identity or machine-path values into the public repo
 - keep any machine-specific paths in private chezmoi data or local config, not in the public source state
 - add install/bootstrap scripts alongside this staged repo

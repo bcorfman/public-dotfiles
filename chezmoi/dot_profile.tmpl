@@ -8,11 +8,19 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+{{- with .machine.postgresqlBinDir }}
+PATH={{ . | quote }}:"$PATH"
+{{- else }}
 if command -v brew >/dev/null 2>&1; then
     pg_prefix="$(brew --prefix postgresql@16 2>/dev/null || true)"
     if [ -n "$pg_prefix" ]; then
         PATH="$pg_prefix/bin:$PATH"
     fi
 fi
+{{- end }}
 
+{{- with .machine.browser }}
+export BROWSER={{ . | quote }}
+{{- else }}
 export BROWSER="${BROWSER:-wslview}"
+{{- end }}

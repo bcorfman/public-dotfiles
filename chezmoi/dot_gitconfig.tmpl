@@ -1,0 +1,22 @@
+[user]
+	email = {{ .identity.email | quote }}
+	name = {{ .identity.name | quote }}
+[push]
+	autoSetupRemote = true
+	default = current
+{{- if or .machine.gitCredentialHelper .machine.gitCredentialStore }}
+[credential]
+{{- with .machine.gitCredentialHelper }}
+	helper = {{ . | quote }}
+{{- end }}
+{{- with .machine.gitCredentialStore }}
+	credentialStore = {{ . | quote }}
+{{- end }}
+{{- end }}
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
