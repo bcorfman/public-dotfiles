@@ -7,10 +7,10 @@ To validate this public source state locally after installing `chezmoi`:
 ```
 
 If `chezmoi` was installed with Homebrew and is not on `PATH`, load Homebrew's shell
-environment first:
+environment first using your local Homebrew prefix:
 
 ```bash
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$("$(command -v brew)" shellenv)"
 ```
 
 What this test does:
