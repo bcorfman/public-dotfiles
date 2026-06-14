@@ -160,12 +160,37 @@ while the script stays on the same repository usually mean authentication is
 failing for that repository. Prompts followed by the next repository name
 usually mean the restore is progressing normally across multiple private repos.
 
-## 11. Restore Repo-Local Secret Files
+## 11. Install Homebrew And GitHub CLI
+
+If your workflow uses `gh`, install Homebrew in WSL first and then install the
+GitHub CLI:
+
+```bash
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.profile
+brew install gh
+gh --version
+```
+
+If GitHub CLI auth was restored from backup, verify it:
+
+```bash
+gh auth status
+```
+
+If `gh auth status` fails, authenticate interactively:
+
+```bash
+gh auth login
+```
+
+## 12. Restore Repo-Local Secret Files
 
 Some repos may depend on local-only files such as `.env` or tool credentials.
 Restore those from private backup after cloning the repos.
 
-## 12. Final Checks
+## 13. Final Checks
 
 Examples:
 
@@ -192,6 +217,7 @@ If Git auth fails:
 
 If CLI auth fails:
 
+- verify `gh` is installed and on `PATH`
 - re-authenticate with the relevant CLI tool
 
 If repo-local secrets are missing:
