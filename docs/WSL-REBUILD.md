@@ -112,28 +112,53 @@ chezmoi init <public-dotfiles-repo-url>
 chezmoi apply
 ```
 
-## 9. Verify Git Authentication
+## 9. Configure Git Authentication In WSL
 
-Run a non-destructive Git remote command against a repository you can access:
+If WSL is using HTTPS remotes and does not already have a working credential
+helper, configure a simple local credential store before restoring private
+repositories:
 
 ```bash
-git config --global --get credential.helper
-git config --global --get credential.credentialStore
+git config --global credential.helper store
+git config --global credential.https://github.com.username <github-username>
+```
+
+Then verify Git access against a repository you can read:
+
+```bash
 git ls-remote <repo-url>
 ```
 
-If this succeeds without prompting for new credentials, Git auth is configured
-correctly.
+If prompted by GitHub over HTTPS:
+
+- enter your GitHub username as the username
+- enter a GitHub Personal Access Token as the password
+
+GitHub account passwords do not work for Git over HTTPS. After the first
+successful authentication, the stored credential should be reused for later
+repository clones and fetches.
 
 ## 10. Restore Development Repositories
 
 Run your repo-restore process from a separately stored manifest or script.
+
+Example:
+
+```bash
+bash /path/to/repo-restore/scripts/restore-dev-repos.sh ~/dev
+```
 
 This should restore:
 
 - remote URLs
 - intended checked-out branches
 - preserved in-process branches where needed
+
+If your restore script prints the current repository name before each restore,
+that output is useful for diagnosing auth problems. Repeated credential prompts
+while the script stays on the same repository usually mean authentication is
+failing for that repository. Prompts followed by the next repository name
+usually mean the restore is progressing normally across multiple private repos.
 
 ## 11. Restore Repo-Local Secret Files
 
@@ -160,8 +185,10 @@ If `chezmoi apply` fails:
 
 If Git auth fails:
 
-- verify the credential helper path
-- verify the Windows-side credential store still exists
+- verify the configured credential helper
+- verify the stored credential is valid for GitHub
+- verify the Personal Access Token has the scopes needed for the target repos
+- retry `git ls-remote <repo-url>` directly before re-running the full restore
 
 If CLI auth fails:
 
