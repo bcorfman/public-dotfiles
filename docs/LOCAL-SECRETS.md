@@ -18,7 +18,7 @@ name = "Your Name"
 email = "you@example.com"
 
 [data.machine]
-browser = "wslview"
+browser = "xdg-open"
 postgresqlBinDir = "/some/private/path/bin"
 gitCredentialHelper = "/some/private/path/to/helper"
 gitCredentialStore = "wincredman"
@@ -62,6 +62,10 @@ Recommended post-restore check:
 git config --global --get credential.helper
 git ls-remote https://github.com/bcorfman/public-dotfiles.git
 ```
+
+For browser launching on newer WSL distros, `xdg-open` is the safest default.
+If you are on an older Ubuntu release with `wslu` installed and prefer it, you
+can still set `browser = "wslview"` in local machine data.
 
 If the helper path is wrong or Windows Git is missing, Git auth from WSL will
 fail even though the PAT still exists in Windows Credential Manager.

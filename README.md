@@ -17,6 +17,8 @@ Layout:
   How to validate the source state with `chezmoi`.
 - `manifests/`
   Restore manifests that stay in the repo but are ignored by chezmoi apply.
+- `scripts/restore-public-dev-env.sh`
+  Base tooling bootstrap for `apt` packages, Homebrew, and the Brewfile bundle.
 
 Deliberate exclusions:
 
@@ -30,6 +32,8 @@ Deliberate exclusions:
 Basic usage:
 
 ```bash
+git clone https://github.com/bcorfman/public-dotfiles.git ~/src/public-dotfiles
+~/src/public-dotfiles/scripts/restore-public-dev-env.sh
 chezmoi init https://github.com/bcorfman/public-dotfiles.git
 chezmoi apply
 ```
@@ -38,6 +42,10 @@ chezmoi apply
 
 This source state is designed to restore Git-on-WSL using Windows Git
 Credential Manager, not SSH-agent-based Git auth.
+
+On newer Ubuntu WSL releases such as 26.04 `resolute`, this repo defaults the
+browser command to `xdg-open` instead of `wslview`, since `wslu` is no longer
+packaged there.
 
 For that to work after a WSL rebuild:
 

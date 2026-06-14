@@ -32,6 +32,8 @@ Date: 2026-06-13
   Curated Homebrew manifest for reinstall.
 - `manifests/apt-packages.txt`
   Curated `apt` package list for reinstall.
+- `scripts/restore-public-dev-env.sh`
+  Scripted base-tool restore for `apt`, Homebrew bootstrap, and `brew bundle`.
 
 ## Excluded On Purpose
 
@@ -55,4 +57,3 @@ Date: 2026-06-13
 
 - fill in local chezmoi data instead of editing identity or machine-path values into the public repo
 - keep any machine-specific paths in private chezmoi data or local config, not in the public source state
-- add install/bootstrap scripts alongside this staged repo

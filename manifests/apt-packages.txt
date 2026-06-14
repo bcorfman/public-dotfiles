@@ -1,4 +1,3 @@
-acpi-support
 acpid
 alsa-base
 alsa-topology-conf
@@ -17,7 +16,6 @@ curl
 gedit
 gedit-common
 ghostscript
-ghostscript-x
 git
 gnupg
 jq
@@ -50,7 +48,6 @@ tk8.6-dev
 tmux
 tree
 wget
-wslu
 x11-apps
 x11-common
 x11-session-utils

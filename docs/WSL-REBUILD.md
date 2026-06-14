@@ -55,7 +55,35 @@ sudo apt install -y git curl unzip rsync build-essential
 
 Install any additional tooling required by your own repos, such as Git LFS.
 
-## 4. Restore Private Material
+## 4. Clone The Public Dotfiles Repo
+
+Clone the public repo somewhere convenient so you can use its bootstrap script:
+
+```bash
+git clone https://github.com/bcorfman/public-dotfiles.git ~/src/public-dotfiles
+```
+
+## 5. Restore Base Tooling
+
+Run the scripted base-tool restore from that checkout:
+
+```bash
+~/src/public-dotfiles/scripts/restore-public-dev-env.sh
+```
+
+This installs the curated `apt` packages, installs Homebrew if needed, and runs
+`brew bundle` for the canonical Brewfile. Tools such as `gh`, `uv`, `pyenv`,
+Node, Rust, and `starship` should come from that script rather than ad hoc
+manual installs.
+
+The curated `apt` manifest in this repo has been adjusted for Ubuntu 26.04
+`resolute`, where older package names like `acpi-support`, `ghostscript-x`,
+and `wslu` are no longer available.
+
+If `sudo` prompts for your password during the `apt` phase, enter it and let
+the script continue.
+
+## 6. Restore Private Material
 
 Restore secrets and identity material from your private backup location before
 applying public dotfiles.
@@ -70,7 +98,7 @@ Examples of private material that should stay out of the public repo:
 
 After restoring sensitive files, fix permissions as needed.
 
-## 5. Ensure Git Credential Integration Exists
+## 7. Ensure Git Credential Integration Exists
 
 If your WSL Git workflow depends on Windows Git Credential Manager, make sure:
 
@@ -78,7 +106,7 @@ If your WSL Git workflow depends on Windows Git Credential Manager, make sure:
 - the credential helper binary exists on the Windows side
 - your local chezmoi machine data restores the correct helper path
 
-## 6. Install Chezmoi
+## 8. Install Chezmoi
 
 Inside Ubuntu:
 
@@ -90,7 +118,7 @@ chezmoi --version
 
 Persist the path in your shell startup if needed.
 
-## 7. Recreate Local Machine Data
+## 9. Recreate Local Machine Data
 
 Create local chezmoi data outside the public repo for machine-specific values,
 such as:
@@ -103,7 +131,7 @@ such as:
 
 Do not commit this machine data to a public repo.
 
-## 8. Restore Public Dotfiles
+## 10. Restore Public Dotfiles
 
 Inside Ubuntu:
 
@@ -121,7 +149,7 @@ These prompts are for local configuration data used to populate files such as
 `~/.gitconfig` and `~/.cookiecutterrc`. They are not GitHub authentication
 prompts.
 
-## 9. Configure Git Authentication In WSL
+## 11. Configure Git Authentication In WSL
 
 If WSL is using HTTPS remotes and does not already have a working credential
 helper, configure a simple local credential store before restoring private
@@ -147,7 +175,7 @@ GitHub account passwords do not work for Git over HTTPS. After the first
 successful authentication, the stored credential should be reused for later
 repository clones and fetches.
 
-## 10. Restore Development Repositories
+## 12. Restore Development Repositories
 
 Run your repo-restore process from a separately stored manifest or script.
 
@@ -169,20 +197,10 @@ while the script stays on the same repository usually mean authentication is
 failing for that repository. Prompts followed by the next repository name
 usually mean the restore is progressing normally across multiple private repos.
 
-## 11. Install Homebrew And GitHub CLI
+## 13. Verify GitHub CLI Authentication
 
-If your workflow uses `gh`, install Homebrew in WSL first and then install the
-GitHub CLI:
-
-```bash
-NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.profile
-brew install gh
-gh --version
-```
-
-If GitHub CLI auth was restored from backup, verify it:
+The base-tool restore script installs `gh` through the Brewfile. If GitHub CLI
+auth was restored from backup, verify it:
 
 ```bash
 gh auth status
@@ -194,12 +212,12 @@ If `gh auth status` fails, authenticate interactively:
 gh auth login
 ```
 
-## 12. Restore Repo-Local Secret Files
+## 14. Restore Repo-Local Secret Files
 
 Some repos may depend on local-only files such as `.env` or tool credentials.
 Restore those from private backup after cloning the repos.
 
-## 13. Final Checks
+## 15. Final Checks
 
 Examples:
 
