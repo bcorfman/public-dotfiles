@@ -22,5 +22,5 @@ fi
 {{- with .machine.browser }}
 export BROWSER={{ . | quote }}
 {{- else }}
-export BROWSER="${BROWSER:-wslview}"
+export BROWSER="${BROWSER:-xdg-open}"
 {{- end }}
