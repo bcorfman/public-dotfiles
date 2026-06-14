@@ -112,6 +112,15 @@ chezmoi init <public-dotfiles-repo-url>
 chezmoi apply
 ```
 
+On first apply, chezmoi may prompt for identity values with text like:
+
+- `Full name for git and cookiecutter?`
+- `Email address for git and cookiecutter?`
+
+These prompts are for local configuration data used to populate files such as
+`~/.gitconfig` and `~/.cookiecutterrc`. They are not GitHub authentication
+prompts.
+
 ## 9. Configure Git Authentication In WSL
 
 If WSL is using HTTPS remotes and does not already have a working credential
